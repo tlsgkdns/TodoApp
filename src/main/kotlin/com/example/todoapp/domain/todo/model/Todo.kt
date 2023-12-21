@@ -1,6 +1,7 @@
 package com.example.todoapp.domain.todo.model
 
 import jakarta.persistence.*
+import org.hibernate.annotations.Comments
 import java.util.Date
 
 @Entity
@@ -13,7 +14,10 @@ data class Todo(
     @Column(name = "writer", nullable = false)
     var writer: String,
     @Column(name = "created_date", nullable = false)
-    var createdDate: Date
+    var createdDate: Date,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "complete")
+    var complete: CompletStatus = CompletStatus.INCOMPLETE,
 )
 {
     @Id
