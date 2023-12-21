@@ -1,6 +1,7 @@
 package com.example.todoapp.domain.comment.dto
 
 data class CommentModifyDTO(
-    val id: Long,
-    val content: String
+    val content: String,
+    val writer: String,
+    val password: String
 )

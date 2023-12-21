@@ -1,5 +1,8 @@
 package com.example.todoapp.domain.todo.service
 
+import com.example.todoapp.domain.comment.dto.CommentDTO
+import com.example.todoapp.domain.comment.dto.CommentModifyDTO
+import com.example.todoapp.domain.comment.dto.CommentPostDTO
 import com.example.todoapp.domain.todo.dto.TodoCreateDTO
 import com.example.todoapp.domain.todo.dto.TodoDTO
 import com.example.todoapp.domain.todo.dto.TodoModifyDTO

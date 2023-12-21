@@ -13,6 +13,19 @@ class GlobalExceptionHandler {
     {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
-            .body(ErrorDTO(message = e.message))
+            .body(ErrorDTO(e.message))
+    }
+
+    @ExceptionHandler(SecurityInfoNotMatchException::class)
+    fun handlePasswordNotMatchException(e: SecurityInfoNotMatchException): ResponseEntity<ErrorDTO>
+    {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(ErrorDTO(e.message))
+    }
+    @ExceptionHandler(IllegalStateException::class)
+    fun handlerIllegalStateException(e: IllegalStateException): ResponseEntity<ErrorDTO>{
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+            .body(ErrorDTO(e.message))
     }
 }
