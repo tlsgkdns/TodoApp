@@ -1,4 +1,4 @@
-package com.example.todoapp.domain.model
+package com.example.todoapp.domain.todo.model
 
 import jakarta.persistence.*
 import java.util.Date

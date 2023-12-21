@@ -1,10 +1,10 @@
-package com.example.todoapp.domain.service
+package com.example.todoapp.domain.todo.service
 
-import com.example.todoapp.domain.dto.TodoCreateDTO
-import com.example.todoapp.domain.dto.TodoDTO
-import com.example.todoapp.domain.dto.TodoModifyDTO
-import com.example.todoapp.domain.model.Todo
-import com.example.todoapp.domain.repository.TodoRepository
+import com.example.todoapp.domain.todo.dto.TodoCreateDTO
+import com.example.todoapp.domain.todo.dto.TodoDTO
+import com.example.todoapp.domain.todo.dto.TodoModifyDTO
+import com.example.todoapp.domain.todo.model.Todo
+import com.example.todoapp.domain.todo.repository.TodoRepository
 import infra.exception.ModelNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -37,14 +37,16 @@ class TodoServiceImpl(
     }
 
     override fun createTodo(createDTO: TodoCreateDTO): TodoDTO {
-        return todoRepository.save(Todo(
+        return todoRepository.save(
+            Todo(
             title = createDTO.title,
             content = createDTO.content,
             writer = createDTO.writer,
             createdDate = createDTO.createdDate
-        )).toDTO()
+        )
+        ).toDTO()
     }
-    private fun Todo.toDTO(): TodoDTO{
+    private fun Todo.toDTO(): TodoDTO {
         return TodoDTO(
             title = title,
             content = content,

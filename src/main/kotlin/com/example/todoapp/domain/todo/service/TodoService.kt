@@ -1,8 +1,8 @@
-package com.example.todoapp.domain.service
+package com.example.todoapp.domain.todo.service
 
-import com.example.todoapp.domain.dto.TodoCreateDTO
-import com.example.todoapp.domain.dto.TodoDTO
-import com.example.todoapp.domain.dto.TodoModifyDTO
+import com.example.todoapp.domain.todo.dto.TodoCreateDTO
+import com.example.todoapp.domain.todo.dto.TodoDTO
+import com.example.todoapp.domain.todo.dto.TodoModifyDTO
 
 interface TodoService {
     fun getTodo(todoId: Long): TodoDTO

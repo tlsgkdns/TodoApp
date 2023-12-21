@@ -1,4 +1,4 @@
-package com.example.todoapp.domain.dto
+package com.example.todoapp.domain.todo.dto
 
 data class TodoModifyDTO(
     var title: String,
