@@ -15,8 +15,8 @@ class TodoAppApplicationTests(@Autowired private val todoService: TodoService) {
     @Test
     fun testTodoGetList()
     {
-        val ascList = todoService.getTodoList(TodoGetListDTO(false))
-        val descList = todoService.getTodoList(TodoGetListDTO(true))
+        val ascList = todoService.getTodoList(false)
+        val descList = todoService.getTodoList(true)
         println("ASC: ")
         for(a in ascList) print("${a.id} ")
         println()

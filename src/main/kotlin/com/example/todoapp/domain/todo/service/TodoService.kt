@@ -7,7 +7,7 @@ import com.example.todoapp.domain.todo.dto.TodoModifyDTO
 interface TodoService {
     fun getTodo(todoId: Long): TodoDTO
 
-    fun getTodoList(orderByASC: Boolean, writer: String?): List<TodoDTO>
+    fun getTodoList(orderByASC: Boolean = true, writer: String? = null): List<TodoDTO>
 
     fun modifyTodo(todoId: Long, todoModifyDTO: TodoModifyDTO): TodoDTO
 

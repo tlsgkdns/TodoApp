@@ -5,4 +5,4 @@
 <h2>ERD</h2>
 <img src="https://github.com/tlsgkdns/todoApp/assets/24753709/38f0f804-15fe-4251-815a-d332bdcea12f">
 <h2>API 명세서</h2>
-<img src="https://github.com/tlsgkdns/todoApp/assets/24753709/09f8a2cb-79c4-4532-8ed5-43f82c3b32a0">
+<img src="https://github.com/tlsgkdns/todoApp/assets/24753709/e0621800-fdee-471c-b219-577c26575893">
