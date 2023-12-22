@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
 plugins {
     id("org.springframework.boot") version "3.1.6"
     id("io.spring.dependency-management") version "1.1.4"
@@ -8,11 +9,16 @@ plugins {
     kotlin("plugin.jpa") version "1.8.22"
 }
 
+
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
+
+}
+kotlin{
+
 }
 
 configurations {
@@ -41,10 +47,14 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs += "-Xjsr305=strict"
         jvmTarget = "17"
     }
+
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    this.testLogging {
+        this.showStandardStreams = true
+    }
 }
 
 tasks.bootBuildImage {

@@ -9,24 +9,23 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/todos")
+@RequestMapping("/todo")
 class TodoController (
     private val todoService: TodoService
 ){
-
     @GetMapping("{todoId}")
     fun getTodo(@PathVariable todoId: Long): ResponseEntity<TodoDTO>
     {
         return ResponseEntity.status(HttpStatus.OK)
             .body(todoService.getTodo(todoId))
     }
-    @GetMapping()
-    fun getTodoList(): ResponseEntity<List<TodoDTO>>
+    @GetMapping("/list")
+    fun getTodoList(orderByASC: Boolean = true, writer: String? = null):
+            ResponseEntity<List<TodoDTO>>
     {
         return ResponseEntity.status(HttpStatus.OK)
-            .body(todoService.getTodoList())
+            .body(todoService.getTodoList(orderByASC, writer))
     }
-
     @PostMapping()
     fun crateTodo(@RequestBody todoDTO: TodoCreateDTO): ResponseEntity<TodoDTO>
     {

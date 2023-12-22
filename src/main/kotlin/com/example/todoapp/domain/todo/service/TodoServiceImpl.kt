@@ -1,9 +1,5 @@
 package com.example.todoapp.domain.todo.service
 
-import com.example.todoapp.domain.comment.dto.CommentDTO
-import com.example.todoapp.domain.comment.dto.CommentModifyDTO
-import com.example.todoapp.domain.comment.dto.CommentPostDTO
-import com.example.todoapp.domain.comment.model.Comment
 import com.example.todoapp.domain.todo.dto.TodoCreateDTO
 import com.example.todoapp.domain.todo.dto.TodoDTO
 import com.example.todoapp.domain.todo.dto.TodoModifyDTO
@@ -13,6 +9,7 @@ import infra.exception.ModelNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.io.Writer
 
 @Service
 class TodoServiceImpl(
@@ -23,8 +20,11 @@ class TodoServiceImpl(
         return todo.toDTO()
     }
 
-    override fun getTodoList(): List<TodoDTO> {
-        return todoRepository.findAll().map { it.toDTO() }
+    override fun getTodoList(orderByASC: Boolean, writer: String?): List<TodoDTO> {
+        val list = if(orderByASC) todoRepository.getTodoListWithAsc()
+        else todoRepository.getTodoListWithDesc()
+        return if(writer != null) list.map { it.toDTO() }.filter { it.writer == writer }
+        else list.map { it.toDTO()}
     }
 
     @Transactional
@@ -32,6 +32,7 @@ class TodoServiceImpl(
         val todo = getValidatedTodo(todoId)
         val (title, content, writer) = todoModifyDTO
         todo.title = title; todo.content = content; todo.writer = writer
+        validateTodo(todo)
         return todoRepository.save(todo).toDTO()
     }
 
@@ -41,14 +42,14 @@ class TodoServiceImpl(
     }
 
     override fun createTodo(createDTO: TodoCreateDTO): TodoDTO {
-        return todoRepository.save(
-            Todo(
+        val todo = Todo(
             title = createDTO.title,
             content = createDTO.content,
             writer = createDTO.writer,
             createdDate = createDTO.createdDate
         )
-        ).toDTO()
+        validateTodo(todo)
+        return todoRepository.save(todo).toDTO()
     }
 
     private fun Todo.toDTO(): TodoDTO {
@@ -64,5 +65,13 @@ class TodoServiceImpl(
     private fun getValidatedTodo(todoId: Long): Todo
     {
         return todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId);
+    }
+    private fun isValidTodo(todo: Todo): Boolean
+    {
+        return todo.content.length in 1..1000 && todo.title.length in 1..199
+    }
+    private fun validateTodo(todo: Todo)
+    {
+        if(!isValidTodo(todo)) throw IllegalStateException("Invalid todo")
     }
 }
