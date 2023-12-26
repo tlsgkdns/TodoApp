@@ -32,7 +32,6 @@ class TodoServiceImpl(
         val todo = getValidatedTodo(todoId)
         val (title, content, writer) = todoModifyDTO
         todo.title = title; todo.content = content; todo.writer = writer
-        validateTodo(todo)
         return todoRepository.save(todo).toDTO()
     }
 
@@ -48,7 +47,6 @@ class TodoServiceImpl(
             writer = createDTO.writer,
             createdDate = createDTO.createdDate
         )
-        validateTodo(todo)
         return todoRepository.save(todo).toDTO()
     }
 
@@ -65,13 +63,5 @@ class TodoServiceImpl(
     private fun getValidatedTodo(todoId: Long): Todo
     {
         return todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId);
-    }
-    private fun isValidTodo(todo: Todo): Boolean
-    {
-        return todo.content.length in 1..1000 && todo.title.length in 1..199
-    }
-    private fun validateTodo(todo: Todo)
-    {
-        if(!isValidTodo(todo)) throw IllegalStateException("Invalid todo")
     }
 }
