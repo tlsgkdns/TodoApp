@@ -5,7 +5,8 @@ import com.example.todoapp.domain.todo.dto.TodoDTO
 import com.example.todoapp.domain.todo.dto.TodoModifyDTO
 import com.example.todoapp.domain.todo.model.Todo
 import com.example.todoapp.domain.todo.repository.TodoRepository
-import infra.exception.ModelNotFoundException
+import com.example.todoapp.infra.exception.ModelNotFoundException
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,13 +21,12 @@ class TodoServiceImpl(
         return todo.toDTO()
     }
 
-    override fun getTodoList(orderByASC: Boolean, writer: String?): List<TodoDTO> {
-        val list = if(orderByASC) todoRepository.getTodoListWithAsc()
-        else todoRepository.getTodoListWithDesc()
+    override fun getTodoList(orderByASC: Boolean, writer: String?, pageable: Pageable): List<TodoDTO> {
+        val list = if(orderByASC) todoRepository.getTodoListWithAsc(pageable)
+        else todoRepository.getTodoListWithDesc(pageable)
         return if(writer != null) list.map { it.toDTO() }.filter { it.writer == writer }
         else list.map { it.toDTO()}
     }
-
     @Transactional
     override fun modifyTodo(todoId: Long, todoModifyDTO: TodoModifyDTO): TodoDTO {
         val todo = getValidatedTodo(todoId)
@@ -34,12 +34,10 @@ class TodoServiceImpl(
         todo.title = title; todo.content = content; todo.writer = writer
         return todoRepository.save(todo).toDTO()
     }
-
     override fun deleteTodo(todoId: Long) {
         val todo = getValidatedTodo(todoId)
         return todoRepository.delete(todo)
     }
-
     override fun createTodo(createDTO: TodoCreateDTO): TodoDTO {
         val todo = Todo(
             title = createDTO.title,

@@ -18,3 +18,5 @@ logging:
                                                 jdbc:
                                                         bind: trace
 
+springdoc:
+  show-login-endpoint: true

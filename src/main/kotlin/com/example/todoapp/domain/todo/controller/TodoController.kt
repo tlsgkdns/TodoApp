@@ -4,15 +4,19 @@ import com.example.todoapp.domain.todo.dto.TodoCreateDTO
 import com.example.todoapp.domain.todo.dto.TodoDTO
 import com.example.todoapp.domain.todo.dto.TodoModifyDTO
 import com.example.todoapp.domain.todo.service.TodoService
-import infra.exception.InvalidateDTOError
+import com.example.todoapp.infra.exception.InvalidateDTOError
 import jakarta.validation.Valid
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/todo")
+@PreAuthorize("hasAuthority('USER')")
 class TodoController (
     private val todoService: TodoService
 ){
@@ -23,11 +27,12 @@ class TodoController (
             .body(todoService.getTodo(todoId))
     }
     @GetMapping("/list")
-    fun getTodoList(orderByASC: Boolean = true, writer: String? = null):
+    fun getTodoList(@PageableDefault(size = 5) pageable: Pageable,
+                    orderByASC: Boolean = true, writer: String? = null):
             ResponseEntity<List<TodoDTO>>
     {
         return ResponseEntity.status(HttpStatus.OK)
-            .body(todoService.getTodoList(orderByASC, writer))
+            .body(todoService.getTodoList(orderByASC, writer, pageable))
     }
     @PostMapping()
     fun createTodo(@RequestBody @Valid todoDTO: TodoCreateDTO, bindingResult: BindingResult):

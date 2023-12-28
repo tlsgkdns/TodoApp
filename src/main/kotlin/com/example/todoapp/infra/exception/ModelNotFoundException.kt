@@ -1,4 +1,4 @@
-package infra.exception
+package com.example.todoapp.infra.exception
 
 data class ModelNotFoundException(val modelName: String, val id: Long): RuntimeException(
     "Model $modelName not found with given id: $id"

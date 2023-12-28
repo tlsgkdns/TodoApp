@@ -6,20 +6,20 @@ import com.example.todoapp.domain.comment.dto.CommentPostDTO
 import com.example.todoapp.domain.comment.service.CommentService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@PreAuthorize("hasAuthority('USER')")
 @RequestMapping("/todos/{todoId}/comments")
 class CommentController(
     private val commentService: CommentService
 ) {
-
     @GetMapping()
     fun getCommentList(@PathVariable todoId: Long): ResponseEntity<List<CommentDTO>>{
         return ResponseEntity.status(HttpStatus.OK)
             .body(commentService.getCommentList(todoId))
     }
-
     @GetMapping("/{commentId}")
     fun getComment(@PathVariable todoId: Long, @PathVariable commentId: Long): ResponseEntity<CommentDTO>{
         return ResponseEntity.status(HttpStatus.OK)

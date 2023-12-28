@@ -7,8 +7,8 @@ import com.example.todoapp.domain.comment.model.Comment
 import com.example.todoapp.domain.comment.repository.CommentRepository
 import com.example.todoapp.domain.todo.model.Todo
 import com.example.todoapp.domain.todo.service.TodoService
-import infra.exception.ModelNotFoundException
-import infra.exception.SecurityInfoNotMatchException
+import com.example.todoapp.infra.exception.ModelNotFoundException
+import com.example.todoapp.infra.exception.SecurityInfoNotMatchException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 

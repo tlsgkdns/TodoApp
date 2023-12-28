@@ -1,6 +1,6 @@
-package infra.exception
+package com.example.todoapp.infra.exception
 
-import infra.exception.dto.ErrorDTO
+import com.example.todoapp.infra.exception.dto.ErrorDTO
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
