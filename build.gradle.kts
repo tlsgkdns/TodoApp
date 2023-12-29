@@ -40,11 +40,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    implementation("com.querydsl:querydsl-apt:5.0.0")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     runtimeOnly("org.postgresql:postgresql")
+    annotationProcessor(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
 }
 
 tasks.withType<KotlinCompile> {
