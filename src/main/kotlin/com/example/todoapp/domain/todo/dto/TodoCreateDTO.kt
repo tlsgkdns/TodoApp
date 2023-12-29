@@ -8,6 +8,5 @@ data class TodoCreateDTO (
     var title: String,
     @field:Length(min = 1, max = 1000, message = "content length must between 1 and 1000")
     var content: String,
-    var writer: String,
     var createdDate: Date
 )

@@ -24,7 +24,6 @@ class JwtAuthenticationFilter(private val tokenProvider: TokenProvider): OncePer
         try {
             val token = parseBearerToken(request)
             val user = parseUserSpecification(token)
-            println(user)
             UsernamePasswordAuthenticationToken.authenticated(user, token, user.authorities)
                 .apply { details = WebAuthenticationDetails(request) }
                 .also { SecurityContextHolder.getContext().authentication = it }

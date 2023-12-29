@@ -15,21 +15,16 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Entity
 @Table(name = "member")
 class Member(
-    username: String,
-    password: String,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
+    @Column(name = "username")
+    var username: String,
+    @Column(name = "password")
+    var password: String,
     @Enumerated(EnumType.STRING)
     val type: MemberType = MemberType.USER
 ){
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
-
-    @Column(nullable = false, name = "username")
-    var username: String = username
-        protected set
-    @Column(nullable = false, name = "password")
-    var password: String = password
-        protected set
     fun updateMember(request: MemberUpdateDTO, encoder: PasswordEncoder)
     {
         this.username = request.newUsername ?: this.username
@@ -38,7 +33,6 @@ class Member(
             ?.let{encoder.encode(it)}
             ?:this.password
     }
-
     companion object{
         fun from(memberRegisterDTO: MemberRegisterDTO, encoder: PasswordEncoder) = Member(
             username = memberRegisterDTO.username,

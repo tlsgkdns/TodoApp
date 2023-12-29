@@ -11,10 +11,4 @@ class TodoAppApplicationTests(@Autowired private val todoService: TodoService) {
     @Test
     fun contextLoads() {
     }
-
-    @Test
-    fun testTodoGetList()
-    {
-
-    }
 }

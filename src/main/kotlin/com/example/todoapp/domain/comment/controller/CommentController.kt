@@ -10,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@PreAuthorize("hasAuthority('USER')")
 @RequestMapping("/todos/{todoId}/comments")
 class CommentController(
     private val commentService: CommentService
@@ -25,13 +24,14 @@ class CommentController(
         return ResponseEntity.status(HttpStatus.OK)
             .body(commentService.getComment(todoId, commentId))
     }
-
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping()
     fun postComment(@PathVariable todoId: Long, @RequestBody commentPostDTO: CommentPostDTO
     ): ResponseEntity<CommentDTO> {
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(commentService.postComment(todoId, commentPostDTO))
     }
+    @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{commentId}")
     fun modifyComment(@PathVariable todoId: Long, @PathVariable commentId: Long,
                     @RequestBody commentModifyDTO: CommentModifyDTO
@@ -39,7 +39,7 @@ class CommentController(
         return ResponseEntity.status(HttpStatus.OK)
             .body(commentService.modifyComment(todoId, commentId, commentModifyDTO))
     }
-
+    @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{commentId}")
     fun deleteComment(@PathVariable todoId: Long, @PathVariable commentId: Long): ResponseEntity<Unit>
     {

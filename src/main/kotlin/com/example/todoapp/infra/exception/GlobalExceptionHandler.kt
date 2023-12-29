@@ -28,4 +28,9 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT)
             .body(ErrorDTO(e.message))
     }
+    @ExceptionHandler(NotHaveAuthorityException::class)
+    fun handlerIllegalStateException(e: NotHaveAuthorityException): ResponseEntity<ErrorDTO>{
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(ErrorDTO(e.message))
+    }
 }

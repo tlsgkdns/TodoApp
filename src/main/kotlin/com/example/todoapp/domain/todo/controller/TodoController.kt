@@ -5,6 +5,7 @@ import com.example.todoapp.domain.todo.dto.TodoDTO
 import com.example.todoapp.domain.todo.dto.TodoModifyDTO
 import com.example.todoapp.domain.todo.service.TodoService
 import com.example.todoapp.infra.exception.InvalidateDTOError
+import com.example.todoapp.infra.security.SecurityUtil
 import jakarta.validation.Valid
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/todo")
-@PreAuthorize("hasAuthority('USER')")
+
 class TodoController (
     private val todoService: TodoService
 ){
@@ -34,6 +35,7 @@ class TodoController (
         return ResponseEntity.status(HttpStatus.OK)
             .body(todoService.getTodoList(orderByASC, writer, pageable))
     }
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping()
     fun createTodo(@RequestBody @Valid todoDTO: TodoCreateDTO, bindingResult: BindingResult):
             ResponseEntity<TodoDTO>
@@ -45,7 +47,7 @@ class TodoController (
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(todoService.createTodo(todoDTO))
     }
-
+    @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{todoId}")
     fun modifyTodo(@PathVariable todoId: Long, @RequestBody @Valid todoModifyDTO: TodoModifyDTO,
                    bindingResult: BindingResult)

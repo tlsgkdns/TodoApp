@@ -10,6 +10,4 @@ data class TodoModifyDTO(
     val title: String,
     @field:Length(min = 1, max = 1000, message = "content length must between 1 and 1000")
     val content: String,
-    val writer: String,
-    val password: String
 )

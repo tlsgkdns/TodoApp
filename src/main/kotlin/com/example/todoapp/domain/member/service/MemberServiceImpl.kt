@@ -5,6 +5,7 @@ import com.example.todoapp.domain.member.model.CustomUserDetails
 import com.example.todoapp.domain.member.model.Member
 import com.example.todoapp.domain.member.repository.MemberRepository
 import com.example.todoapp.infra.security.TokenProvider
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -43,6 +44,11 @@ class MemberServiceImpl (
         return member.toDTO()
     }
 
+    override fun getMember(id: Long): MemberDTO {
+        val member = memberRepository.findByIdOrNull(id) ?: throw IllegalStateException("없는 유저입니다.")
+        return member.toDTO()
+    }
+
     override fun modifyMember(username: String, memberUpdateDTO: MemberUpdateDTO): MemberDTO {
         val member = memberRepository.findByUsername(username) ?: throw IllegalStateException("없는 유저입니다.")
         if(memberRepository.findByUsername(memberUpdateDTO.newUsername ?: "") != null)
@@ -59,6 +65,6 @@ class MemberServiceImpl (
     }
 
     private fun Member.toDTO(): MemberDTO{
-        return MemberDTO(username, password)
+        return MemberDTO(id!!, username, password)
     }
 }
