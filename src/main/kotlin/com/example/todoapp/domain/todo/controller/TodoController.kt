@@ -28,12 +28,12 @@ class TodoController (
             .body(todoService.getTodo(todoId))
     }
     @GetMapping("/list")
-    fun getTodoList(@PageableDefault(size = 5) pageable: Pageable,
+    fun getTodos(@PageableDefault(size = 5) pageable: Pageable,
                     orderByASC: Boolean = true, writer: String? = null):
             ResponseEntity<List<TodoDTO>>
     {
         return ResponseEntity.status(HttpStatus.OK)
-            .body(todoService.getTodoList(orderByASC, writer, pageable))
+            .body(todoService.getTodos(orderByASC, writer, pageable))
     }
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping()

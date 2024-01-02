@@ -28,8 +28,7 @@ import java.util.stream.Collectors
 @Service
 class TodoServiceImpl(
     private val todoRepository: TodoRepository,
-    private val memberRepository: MemberRepository,
-    private val commentRepository: CommentRepository
+    private val memberRepository: MemberRepository
 ): TodoService {
     @Transactional
     override fun getTodo(todoId: Long): TodoDTO {
@@ -37,7 +36,7 @@ class TodoServiceImpl(
         return todo.toDTO()
     }
     @Transactional
-    override fun getTodoList(orderByASC: Boolean, writer: String?, pageable: Pageable): List<TodoDTO> {
+    override fun getTodos(orderByASC: Boolean, writer: String?, pageable: Pageable): List<TodoDTO> {
         val list = if(writer != null)
         {
             if(orderByASC) {
@@ -61,19 +60,18 @@ class TodoServiceImpl(
 
         return list.map { it.toDTO() }
     }
-    @PreAuthorize("hasAuthority('USER')")
     @Transactional
     override fun modifyTodo(todoId: Long, todoModifyDTO: TodoModifyDTO): TodoDTO {
         val todo = getValidatedTodo(todoId)
         val (title, content) = todoModifyDTO
-        if(SecurityUtil.isDifferentWithLoginMember(todo.writer)) throw NotHaveAuthorityException("Todo")
+        SecurityUtil.checkUserCanAccessThis(todo.writer, "Todo")
         todo.title = title; todo.content = content;
         return todoRepository.save(todo).toDTO()
     }
     @Transactional
     override fun deleteTodo(todoId: Long) {
         val todo = getValidatedTodo(todoId)
-        if(SecurityUtil.isDifferentWithLoginMember(todo.writer)) throw NotHaveAuthorityException("Todo")
+        SecurityUtil.checkUserCanAccessThis(todo.writer, "Todo")
         return todoRepository.delete(todo)
     }
     @Transactional

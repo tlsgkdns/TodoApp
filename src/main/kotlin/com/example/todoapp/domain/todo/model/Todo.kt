@@ -33,7 +33,7 @@ data class Todo(
     @get:EntityGraph(attributePaths = ["comment"])
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val commentSet: MutableSet<Comment> = mutableSetOf()
-    fun getCommentList(): List<CommentDTO>
+    fun getComments(): List<CommentDTO>
     {
         return commentSet.map { it.toDTO() }
     }

@@ -54,7 +54,7 @@ class MemberServiceImpl (
         val member = memberRepository.findByUsername(username) ?: throw IllegalStateException("없는 유저입니다.")
         if(memberRepository.findByUsername(memberUpdateDTO.newUsername ?: "") != null)
             throw IllegalStateException("이미 존재하는 아이디입니다.")
-        if(SecurityUtil.isDifferentWithLoginMember(member)) throw NotHaveAuthorityException("Member")
+        SecurityUtil.checkUserCanAccessThis(member, "Member")
         member.updateMember(MemberUpdateDTO(memberUpdateDTO.newUsername ?: username,
             memberUpdateDTO.newPassword ?: member.password), encoder)
         memberRepository.save(member)
@@ -64,7 +64,7 @@ class MemberServiceImpl (
     @Transactional
     override fun deleteMember(username: String) {
         val member = memberRepository.findByUsername(username) ?: throw IllegalStateException("없는 유저입니다.")
-        if(SecurityUtil.isDifferentWithLoginMember(member)) throw NotHaveAuthorityException("Member")
+        SecurityUtil.checkUserCanAccessThis(member, "Member")
         memberRepository.delete(member)
     }
 

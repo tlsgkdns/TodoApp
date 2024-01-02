@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable
 interface TodoService {
     fun getTodo(todoId: Long): TodoDTO
 
-    fun getTodoList(orderByASC: Boolean = true, writer: String? = null, pageable: Pageable): List<TodoDTO>
+    fun getTodos(orderByASC: Boolean = true, writer: String? = null, pageable: Pageable): List<TodoDTO>
 
     fun modifyTodo(todoId: Long, todoModifyDTO: TodoModifyDTO): TodoDTO
 

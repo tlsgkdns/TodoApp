@@ -3,6 +3,7 @@ package com.example.todoapp.infra.security
 import com.example.todoapp.domain.member.model.Member
 import com.example.todoapp.domain.member.repository.MemberRepository
 import com.example.todoapp.domain.member.service.MemberService
+import com.example.todoapp.infra.exception.NotHaveAuthorityException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -17,10 +18,9 @@ class SecurityUtil {
             return memberRepository.findByUsername(getUsername()) ?:
             Member(-1, "anonymous", "anonymous");
         }
-        fun isDifferentWithLoginMember(member: Member): Boolean
+        fun checkUserCanAccessThis(member: Member, name: String)
         {
-            println("${getUsername()} vs ${member.username}")
-            return getUsername() != member.username
+            if(member.username != getUsername()) throw NotHaveAuthorityException(name)
         }
     }
 }

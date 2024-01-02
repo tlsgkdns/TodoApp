@@ -31,19 +31,14 @@ class CommentServiceImpl(
        if(todoId != comment.todo.id)
            throw IllegalStateException("$todoId And ${comment.todo.id} is not Matched!")
     }
-    private fun checkUserCanModifyThisComment(comment: Comment)
-    {
-        if(SecurityUtil.isDifferentWithLoginMember(comment.writer!!))
-            throw NotHaveAuthorityException("comment")
-    }
     private fun getValidatedComment(commentId: Long): Comment
     {
         return commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", commentId)
     }
     @Transactional
-    override fun getCommentList(todoId: Long): List<CommentDTO> {
+    override fun getComments(todoId: Long): List<CommentDTO> {
         val todo = todoRepository.findByIdOrNull(todoId) ?: ModelNotFoundException("Todo", todoId)
-        return (todo as Todo).getCommentList()
+        return (todo as Todo).getComments()
     }
     @Transactional
     override fun getComment(todoId: Long, commentId: Long): CommentDTO {
@@ -62,7 +57,7 @@ class CommentServiceImpl(
         val (content, password) = modifyDTO
         val comment = getValidatedComment(commentId)
         checkTodoAndCommentAreSame(todoId, comment)
-        checkUserCanModifyThisComment(comment)
+        SecurityUtil.checkUserCanAccessThis(comment.writer!!, "Comment")
         if(password != comment.password) throw IllegalStateException("Password Not Matched!")
         comment.modifyComment(content)
         return commentRepository.save(comment).toDTO()
@@ -71,7 +66,7 @@ class CommentServiceImpl(
     override fun deleteComment(todoId: Long, commentId: Long) {
         val comment = getValidatedComment(commentId)
         checkTodoAndCommentAreSame(todoId, comment)
-        checkUserCanModifyThisComment(comment)
+        SecurityUtil.checkUserCanAccessThis(comment.writer!!, "Comment")
         commentRepository.delete(comment)
     }
 }
