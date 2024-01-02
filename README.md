@@ -3,9 +3,9 @@
 <h2>Use Case Diagram</h2>
 <img src="https://github.com/tlsgkdns/TodoApp/assets/24753709/4852588b-8275-43d3-b660-7a7c65a00e59">
 <h2>ERD</h2>
-<img src="https://github.com/tlsgkdns/todoApp/assets/24753709/38f0f804-15fe-4251-815a-d332bdcea12f">
+<img src="https://github.com/tlsgkdns/TodoApp/assets/24753709/d8edb923-4afe-4147-ac6c-c21567f08a61">
 <h2>API 명세서</h2>
-<img src="https://github.com/tlsgkdns/todoApp/assets/24753709/e0621800-fdee-471c-b219-577c26575893">
+<img src="https://github.com/tlsgkdns/TodoApp/assets/24753709/e8f70bca-31ab-4789-9982-fc500f20ac29">
 <h2>개념 정리</h2>
 <h3>Offset Paging vs Cursor Paging</h3>
 <h4>Offset Paging</h4>

@@ -17,7 +17,7 @@ class CommentController(
     @GetMapping()
     fun getCommentList(@PathVariable todoId: Long): ResponseEntity<List<CommentDTO>>{
         return ResponseEntity.status(HttpStatus.OK)
-            .body(commentService.getCommentList(todoId))
+            .body(commentService.getComments(todoId))
     }
     @GetMapping("/{commentId}")
     fun getComment(@PathVariable todoId: Long, @PathVariable commentId: Long): ResponseEntity<CommentDTO>{
