@@ -1,14 +1,12 @@
 package com.example.todoapp.domain.member.service
 
 import com.example.todoapp.domain.member.dto.*
-import com.example.todoapp.domain.member.model.CustomUserDetails
 import com.example.todoapp.domain.member.model.Member
 import com.example.todoapp.domain.member.repository.MemberRepository
+import com.example.todoapp.infra.exception.NotHaveAuthorityException
+import com.example.todoapp.infra.security.SecurityUtil
 import com.example.todoapp.infra.security.TokenProvider
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -39,28 +37,34 @@ class MemberServiceImpl (
         return SignInResponse(member.username, member.type, token)
     }
 
+    @Transactional
     override fun getMember(username: String): MemberDTO {
         val member = memberRepository.findByUsername(username) ?: throw IllegalStateException("없는 유저입니다.")
         return member.toDTO()
     }
 
+    @Transactional
     override fun getMember(id: Long): MemberDTO {
         val member = memberRepository.findByIdOrNull(id) ?: throw IllegalStateException("없는 유저입니다.")
         return member.toDTO()
     }
 
+    @Transactional
     override fun modifyMember(username: String, memberUpdateDTO: MemberUpdateDTO): MemberDTO {
         val member = memberRepository.findByUsername(username) ?: throw IllegalStateException("없는 유저입니다.")
         if(memberRepository.findByUsername(memberUpdateDTO.newUsername ?: "") != null)
             throw IllegalStateException("이미 존재하는 아이디입니다.")
+        if(SecurityUtil.isDifferentWithLoginMember(member)) throw NotHaveAuthorityException("Member")
         member.updateMember(MemberUpdateDTO(memberUpdateDTO.newUsername ?: username,
             memberUpdateDTO.newPassword ?: member.password), encoder)
         memberRepository.save(member)
         return member.toDTO()
     }
 
+    @Transactional
     override fun deleteMember(username: String) {
         val member = memberRepository.findByUsername(username) ?: throw IllegalStateException("없는 유저입니다.")
+        if(SecurityUtil.isDifferentWithLoginMember(member)) throw NotHaveAuthorityException("Member")
         memberRepository.delete(member)
     }
 

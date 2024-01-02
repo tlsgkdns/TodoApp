@@ -14,9 +14,9 @@ data class Comment(
     var id: Long? = null,
     @Column(name = "content")
     var content: String,
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "writer")
-    var writer: Member,
+    var writer: Member?,
     @Column(name = "password")
     var password: String,
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,7 +31,7 @@ data class Comment(
     fun toDTO(): CommentDTO = CommentDTO(
         id = id,
         content = content,
-        writer = writer.id!!
+        writer = writer?.id!!
     )
     companion object {
         fun from(contentPostDTO: CommentPostDTO, todo: Todo, writer: Member): Comment

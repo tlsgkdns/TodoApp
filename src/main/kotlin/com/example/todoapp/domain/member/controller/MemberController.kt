@@ -25,17 +25,17 @@ class MemberController(private val memberService: MemberService) {
     }
 
     @PutMapping("/{username}")
-    @PreAuthorize("hasAuthority('USER') and (principal.username == #username)")
+    @PreAuthorize("hasAuthority('USER')")
     fun updateMember(@PathVariable username: String, @RequestBody memberUpdateDTO: MemberUpdateDTO)
     : ResponseEntity<MemberDTO>
     {
         return ResponseEntity.status(HttpStatus.OK).body(memberService.modifyMember(username, memberUpdateDTO))
     }
     @DeleteMapping("/{username}")
-    @PreAuthorize("hasAuthority('USER') and principal.username == #username")
+    @PreAuthorize("hasAuthority('USER')")
     fun deleteMember(@PathVariable username: String): ResponseEntity<Unit>
     {
-        SecurityContextHolder.getContext().authentication.principal.let {  }
+        println("Hello!")
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(memberService.deleteMember(username))
     }
 

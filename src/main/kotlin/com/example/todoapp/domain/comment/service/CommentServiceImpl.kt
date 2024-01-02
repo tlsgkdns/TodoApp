@@ -33,7 +33,7 @@ class CommentServiceImpl(
     }
     private fun checkUserCanModifyThisComment(comment: Comment)
     {
-        if(SecurityUtil.isDifferentWithLoginMember(comment.writer))
+        if(SecurityUtil.isDifferentWithLoginMember(comment.writer!!))
             throw NotHaveAuthorityException("comment")
     }
     private fun getValidatedComment(commentId: Long): Comment

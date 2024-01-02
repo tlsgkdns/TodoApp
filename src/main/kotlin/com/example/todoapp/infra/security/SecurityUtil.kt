@@ -10,15 +10,16 @@ class SecurityUtil {
     companion object{
         private fun getUsername(): String
         {
-            return (SecurityContextHolder.getContext()?.authentication?.principal as? UserDetails)?.username ?: "string1"
+            return (SecurityContextHolder.getContext()?.authentication?.principal as? UserDetails)?.username ?: "anonymous"
         }
         fun getLoginMember(memberRepository: MemberRepository): Member
         {
             return memberRepository.findByUsername(getUsername()) ?:
-            Member(1, "string1", "string");
+            Member(-1, "anonymous", "anonymous");
         }
         fun isDifferentWithLoginMember(member: Member): Boolean
         {
+            println("${getUsername()} vs ${member.username}")
             return getUsername() != member.username
         }
     }
