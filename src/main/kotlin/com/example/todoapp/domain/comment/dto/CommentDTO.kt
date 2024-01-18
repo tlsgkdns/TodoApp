@@ -1,7 +1,8 @@
 package com.example.todoapp.domain.comment.dto
 
+import com.example.todoapp.domain.comment.model.Comment
 import com.example.todoapp.domain.todo.model.Todo
-import javax.xml.stream.events.Comment
+
 
 
 data class CommentDTO(
@@ -9,5 +10,16 @@ data class CommentDTO(
     val content: String,
     val writer: Long
 )
-{}
+{
+    companion object{
+        fun from(comment: Comment): CommentDTO
+        {
+            return CommentDTO(
+                id = comment.id,
+                content = comment.content,
+                writer = comment.writer?.id!!
+            )
+        }
+    }
+}
 

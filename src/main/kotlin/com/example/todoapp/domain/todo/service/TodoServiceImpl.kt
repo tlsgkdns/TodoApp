@@ -1,5 +1,6 @@
 package com.example.todoapp.domain.todo.service
 
+import com.example.todoapp.domain.comment.dto.CommentDTO
 import com.example.todoapp.domain.comment.repository.CommentRepository
 import com.example.todoapp.domain.comment.service.CommentService
 import com.example.todoapp.domain.member.model.Member
@@ -86,7 +87,7 @@ class TodoServiceImpl(
             writer = writer.id!!,
             createdDate = createdDate,
             complete = complete,
-            commentList = commentSet.map { it.toDTO() }
+            commentList = commentSet.map { CommentDTO.from(it) }
         )
     }
     private fun getValidatedTodo(todoId: Long): Todo

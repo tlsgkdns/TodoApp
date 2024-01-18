@@ -28,11 +28,6 @@ data class Comment(
     {
         this.content = content
     }
-    fun toDTO(): CommentDTO = CommentDTO(
-        id = id,
-        content = content,
-        writer = writer?.id!!
-    )
     companion object {
         fun from(contentPostDTO: CommentPostDTO, todo: Todo, writer: Member): Comment
         {

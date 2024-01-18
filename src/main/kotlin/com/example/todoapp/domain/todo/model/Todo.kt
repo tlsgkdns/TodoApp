@@ -5,6 +5,11 @@ import com.example.todoapp.domain.comment.model.Comment
 import com.example.todoapp.domain.member.model.Member
 import com.example.todoapp.domain.member.service.MemberService
 import com.example.todoapp.domain.todo.dto.TodoCreateDTO
+import com.example.todoapp.domain.todo.dto.TodoDTO
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import jakarta.persistence.*
 import org.hibernate.annotations.Comments
 import org.springframework.data.jpa.repository.EntityGraph
@@ -25,7 +30,7 @@ data class Todo(
     @JoinColumn(name = "writer")
     var writer: Member,
     @Column(name = "created_date", nullable = false)
-    var createdDate: LocalDateTime,
+    var createdDate: LocalDateTime = LocalDateTime.now(),
     @Column(name = "complete_status")
     var complete: Boolean = false,
 )
@@ -35,7 +40,7 @@ data class Todo(
     val commentSet: MutableSet<Comment> = mutableSetOf()
     fun getComments(): List<CommentDTO>
     {
-        return commentSet.map { it.toDTO() }
+        return commentSet.map { CommentDTO.from(it) }
     }
     companion object {
         fun from(createDTO: TodoCreateDTO, writer: Member): Todo
