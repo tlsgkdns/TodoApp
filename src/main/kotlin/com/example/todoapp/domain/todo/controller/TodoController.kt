@@ -4,8 +4,7 @@ import com.example.todoapp.domain.todo.dto.TodoCreateDTO
 import com.example.todoapp.domain.todo.dto.TodoDTO
 import com.example.todoapp.domain.todo.dto.TodoModifyDTO
 import com.example.todoapp.domain.todo.service.TodoService
-import com.example.todoapp.infra.exception.InvalidateDTOError
-import com.example.todoapp.infra.security.SecurityUtil
+import com.example.todoapp.infra.exception.InvalidateDTOException
 import jakarta.validation.Valid
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -42,7 +41,7 @@ class TodoController (
     {
         if(bindingResult.hasErrors())
         {
-            throw InvalidateDTOError("createDTO", bindingResult.fieldError?.defaultMessage ?: "")
+            throw InvalidateDTOException("createDTO", bindingResult.fieldError?.defaultMessage ?: "")
         }
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(todoService.createTodo(todoDTO))
@@ -55,7 +54,7 @@ class TodoController (
     {
         if(bindingResult.hasErrors())
         {
-            throw InvalidateDTOError("modifyDTO", bindingResult.fieldError?.defaultMessage ?: "")
+            throw InvalidateDTOException("modifyDTO", bindingResult.fieldError?.defaultMessage ?: "")
         }
         return ResponseEntity.status(HttpStatus.OK)
             .body(todoService.modifyTodo(todoId, todoModifyDTO))

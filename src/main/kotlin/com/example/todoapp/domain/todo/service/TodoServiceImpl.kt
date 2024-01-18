@@ -34,7 +34,7 @@ class TodoServiceImpl(
     @Transactional
     override fun getTodo(todoId: Long): TodoDTO {
         val todo = getValidatedTodo(todoId)
-        return todo.toDTO()
+        return TodoDTO.from(todo)
     }
     @Transactional
     override fun getTodos(orderByASC: Boolean, writer: String?, pageable: Pageable): List<TodoDTO> {
@@ -59,7 +59,7 @@ class TodoServiceImpl(
             }
         }
 
-        return list.map { it.toDTO() }
+        return list.map { TodoDTO.from(it) }
     }
     @Transactional
     override fun modifyTodo(todoId: Long, todoModifyDTO: TodoModifyDTO): TodoDTO {
@@ -67,7 +67,7 @@ class TodoServiceImpl(
         val (title, content) = todoModifyDTO
         SecurityUtil.checkUserCanAccessThis(todo.writer, "Todo")
         todo.title = title; todo.content = content;
-        return todoRepository.save(todo).toDTO()
+        return TodoDTO.from(todoRepository.save(todo))
     }
     @Transactional
     override fun deleteTodo(todoId: Long) {
@@ -77,18 +77,7 @@ class TodoServiceImpl(
     }
     @Transactional
     override fun createTodo(createDTO: TodoCreateDTO): TodoDTO {
-        return todoRepository.save(Todo.from(createDTO, SecurityUtil.getLoginMember(memberRepository))).toDTO()
-    }
-    private fun Todo.toDTO(): TodoDTO {
-        return TodoDTO(
-            id = id!!,
-            title = title,
-            content = content,
-            writer = writer.id!!,
-            createdDate = createdDate,
-            complete = complete,
-            commentList = commentSet.map { CommentDTO.from(it) }
-        )
+        return TodoDTO.from(todoRepository.save(Todo.from(createDTO, SecurityUtil.getLoginMember(memberRepository))))
     }
     private fun getValidatedTodo(todoId: Long): Todo
     {
