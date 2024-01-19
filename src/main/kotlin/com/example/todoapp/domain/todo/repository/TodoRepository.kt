@@ -7,9 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import java.io.Writer
 
-interface TodoRepository: JpaRepository<Todo, Long> {
-    fun findByWriterUsernameOrderByCreatedDateAsc(pageable: Pageable, username: String): List<Todo>
-    fun findByWriterUsernameOrderByCreatedDateDesc(pageable: Pageable, username: String):List<Todo>
-    fun findByOrderByCreatedDateAsc(pageable: Pageable): List<Todo>
-    fun findByOrderByCreatedDateDesc(pageable: Pageable): List<Todo>
+interface TodoRepository: JpaRepository<Todo, Long>, QueryDslTodoRepository {
+
 }

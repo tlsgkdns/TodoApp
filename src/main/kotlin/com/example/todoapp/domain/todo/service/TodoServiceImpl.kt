@@ -6,6 +6,7 @@ import com.example.todoapp.domain.comment.service.CommentService
 import com.example.todoapp.domain.member.model.Member
 import com.example.todoapp.domain.member.repository.MemberRepository
 import com.example.todoapp.domain.member.service.MemberService
+import com.example.todoapp.domain.todo.dto.SearchKeywordDTO
 import com.example.todoapp.domain.todo.dto.TodoCreateDTO
 import com.example.todoapp.domain.todo.dto.TodoDTO
 import com.example.todoapp.domain.todo.dto.TodoModifyDTO
@@ -14,6 +15,7 @@ import com.example.todoapp.domain.todo.repository.TodoRepository
 import com.example.todoapp.infra.exception.ModelNotFoundException
 import com.example.todoapp.infra.exception.NotHaveAuthorityException
 import com.example.todoapp.infra.security.SecurityUtil
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
@@ -37,28 +39,8 @@ class TodoServiceImpl(
         return TodoDTO.from(todo)
     }
     @Transactional
-    override fun getTodos(orderByASC: Boolean, writer: String?, pageable: Pageable): List<TodoDTO> {
-        val list = if(writer != null)
-        {
-            if(orderByASC) {
-                todoRepository.findByWriterUsernameOrderByCreatedDateAsc(pageable, writer)
-            }
-            else {
-                todoRepository.findByWriterUsernameOrderByCreatedDateDesc(pageable, writer)
-            }
-        }
-        else
-        {
-            if(orderByASC)
-            {
-                todoRepository.findByOrderByCreatedDateAsc(pageable)
-            }
-            else
-            {
-                todoRepository.findByOrderByCreatedDateDesc(pageable)
-            }
-        }
-
+    override fun getTodos(pageable: Pageable, searchKeywordDTO: SearchKeywordDTO?, orderByASC: Boolean): Page<TodoDTO> {
+        val list = todoRepository.getTodos(pageable, orderByASC, searchKeywordDTO)
         return list.map { TodoDTO.from(it) }
     }
     @Transactional

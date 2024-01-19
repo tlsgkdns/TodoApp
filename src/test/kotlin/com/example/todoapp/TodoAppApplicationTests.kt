@@ -14,19 +14,5 @@ class TodoAppApplicationTests(@Autowired private val todoService: TodoService
     , @Autowired private val commentService: CommentService
 ) {
 
-    @Test
-    fun contextLoads() {
-    }
 
-    @Test
-    fun testTodoService()
-    {
-        commentService.deleteComment(17, 8)
-    }
-
-    @Test
-    fun testCommentService()
-    {
-        commentService.deleteComment(20, 44)
-    }
 }

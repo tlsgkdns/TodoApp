@@ -3,12 +3,15 @@ package com.example.todoapp.domain.todo.controller
 import com.example.todoapp.domain.todo.dto.TodoCreateDTO
 import com.example.todoapp.domain.todo.dto.TodoDTO
 import com.example.todoapp.domain.todo.dto.TodoModifyDTO
+import com.example.todoapp.domain.todo.dto.SearchKeywordDTO
 import com.example.todoapp.domain.todo.service.TodoService
 import com.example.todoapp.infra.exception.InvalidateDTOException
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.BindingResult
@@ -27,12 +30,12 @@ class TodoController (
             .body(todoService.getTodo(todoId))
     }
     @GetMapping("/list")
-    fun getTodos(@PageableDefault(size = 5) pageable: Pageable,
-                    orderByASC: Boolean = true, writer: String? = null):
-            ResponseEntity<List<TodoDTO>>
+    fun getTodos(@PageableDefault(size = 5) pageable: Pageable, searchKeywordDTO: SearchKeywordDTO?,
+                 orderByASC: Boolean = true):
+            ResponseEntity<Page<TodoDTO>>
     {
         return ResponseEntity.status(HttpStatus.OK)
-            .body(todoService.getTodos(orderByASC, writer, pageable))
+            .body(todoService.getTodos(pageable, searchKeywordDTO, orderByASC))
     }
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping()
