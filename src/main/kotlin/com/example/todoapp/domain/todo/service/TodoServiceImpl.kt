@@ -47,9 +47,9 @@ class TodoServiceImpl(
     override fun modifyTodo(todoId: Long, todoModifyDTO: TodoModifyDTO): TodoDTO {
         val todo = getValidatedTodo(todoId)
         val (title, content) = todoModifyDTO
-        SecurityUtil.checkUserCanAccessThis(todo.writer, "Todo")
-        todo.title = title; todo.content = content;
-        return TodoDTO.from(todoRepository.save(todo))
+        SecurityUtil.checkUserCanAccessThis(todo.writer, "Todo");
+        return TodoDTO.from(todoRepository.save(todo.apply
+            { todo.title = title; todo.content = content }))
     }
     @Transactional
     override fun deleteTodo(todoId: Long) {
