@@ -33,10 +33,5 @@ class Member(
             ?.let{encoder.encode(it)}
             ?:this.password
     }
-    companion object{
-        fun from(memberRegisterDTO: MemberRegisterDTO, encoder: PasswordEncoder) = Member(
-            username = memberRegisterDTO.username,
-            password = encoder.encode(memberRegisterDTO.password)
-        )
-    }
+
 }

@@ -21,7 +21,7 @@ data class TodoDTO(
                 id = todo.id!!,
                 title = todo.title,
                 content = todo.content,
-                writer = todo.writer.id!!,
+                writer = todo.writer?.id!!,
                 createdDate = todo.createdDate,
                 complete = todo.complete,
                 commentList = todo.commentSet.map { CommentDTO.from(it) }

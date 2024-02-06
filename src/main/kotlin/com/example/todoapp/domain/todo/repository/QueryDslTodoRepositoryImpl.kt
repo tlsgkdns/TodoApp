@@ -24,7 +24,7 @@ class QueryDslTodoRepositoryImpl: QueryDslTodoRepository, QueryDslSupport() {
 
     private val todo = QTodo.todo
     private val keywordMap = mapOf(Pair("title", todo.title),
-        Pair("writer", todo.writer.username), Pair("content", todo.content))
+        Pair("content", todo.content))
     private fun getOrder(pageable: Pageable, path: EntityPathBase<*>, orderByAsc: Boolean): Array<OrderSpecifier<*>>
     {
         val pathBuilder = PathBuilder(path.type, path.metadata)

@@ -1,5 +1,7 @@
 package com.example.todoapp.domain.todo.dto
 
+import com.example.todoapp.domain.member.repository.MemberRepository
+import com.example.todoapp.domain.todo.model.Todo
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDateTime
 import java.util.Date
@@ -11,3 +13,10 @@ data class TodoCreateDTO (
     var content: String,
     var createdDate: LocalDateTime
 )
+{
+    fun to(memberRepository: MemberRepository): Todo
+    {
+        return Todo(title = title, content = content,
+            createdDate = createdDate, complete = false).apply {setWriter(memberRepository)}
+    }
+}

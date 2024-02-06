@@ -52,8 +52,7 @@ class TodoControllerTest @Autowired constructor(
             {
                 val objectMapper = ObjectMapper()
                 val json = objectMapper.registerModules(JavaTimeModule()).writeValueAsString(
-                    Todo(content = "Hello!", complete = true, title = "TODO",
-                        writer = Member(5, "username", "aaa", MemberType.USER))
+                    Todo(content = "Hello!", complete = true, title = "TODO").setWriter(memberRepository)
                 )
                 val falseToken = "Hello! I'm Token!"
                 val result = mockMvc.perform(
@@ -75,11 +74,9 @@ class TodoControllerTest @Autowired constructor(
             {
                 every { todoRepository.findByIdOrNull(any()) } returns
                         Todo(
-                            id = todoId,
                             title = "Mock Title",
                             content = "Mock Content",
                             complete = false,
-                            writer = Member(1, "User", "dsdasd"),
                             createdDate = LocalDateTime.now()
                         )
                 every{

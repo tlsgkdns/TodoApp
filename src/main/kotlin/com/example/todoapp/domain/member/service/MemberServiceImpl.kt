@@ -25,7 +25,8 @@ class MemberServiceImpl (
         {
             throw IllegalStateException("이미 등록된 ID입니다.")
         }
-        return memberRepository.save(Member.from(memberRegisterDTO, encoder)).toDTO()
+        return memberRepository.save(memberRegisterDTO.to(encoder))
+            .let { MemberDTO.from(it) }
     }
 
     @Transactional
@@ -39,14 +40,16 @@ class MemberServiceImpl (
 
     @Transactional
     override fun getMember(username: String): MemberDTO {
-        val member = memberRepository.findByUsername(username) ?: throw IllegalStateException("없는 유저입니다.")
-        return member.toDTO()
+        val member = memberRepository.findByUsername(username)
+            ?: throw IllegalStateException("없는 유저입니다.")
+        return MemberDTO.from(member)
     }
 
     @Transactional
     override fun getMember(id: Long): MemberDTO {
-        val member = memberRepository.findByIdOrNull(id) ?: throw IllegalStateException("없는 유저입니다.")
-        return member.toDTO()
+        val member = memberRepository.findByIdOrNull(id)
+            ?: throw IllegalStateException("없는 유저입니다.")
+        return MemberDTO.from(member)
     }
 
     @Transactional
@@ -54,21 +57,14 @@ class MemberServiceImpl (
         val member = memberRepository.findByUsername(username) ?: throw IllegalStateException("없는 유저입니다.")
         if(memberRepository.findByUsername(memberUpdateDTO.newUsername ?: "") != null)
             throw IllegalStateException("이미 존재하는 아이디입니다.")
-        SecurityUtil.checkUserCanAccessThis(member, "Member")
         member.updateMember(MemberUpdateDTO(memberUpdateDTO.newUsername ?: username,
             memberUpdateDTO.newPassword ?: member.password), encoder)
-        memberRepository.save(member)
-        return member.toDTO()
+        return MemberDTO.from(memberRepository.save(member))
     }
 
     @Transactional
     override fun deleteMember(username: String) {
         val member = memberRepository.findByUsername(username) ?: throw IllegalStateException("없는 유저입니다.")
-        SecurityUtil.checkUserCanAccessThis(member, "Member")
         memberRepository.delete(member)
-    }
-
-    private fun Member.toDTO(): MemberDTO{
-        return MemberDTO(id!!, username, password)
     }
 }

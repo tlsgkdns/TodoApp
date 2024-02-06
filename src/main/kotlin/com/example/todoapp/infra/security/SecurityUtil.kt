@@ -18,9 +18,5 @@ class SecurityUtil {
             return memberRepository.findByUsername(getUsername()) ?:
             Member(-1, "anonymous", "anonymous");
         }
-        fun checkUserCanAccessThis(member: Member, name: String)
-        {
-            if(member.username != getUsername()) throw NotHaveAuthorityException(name)
-        }
     }
 }

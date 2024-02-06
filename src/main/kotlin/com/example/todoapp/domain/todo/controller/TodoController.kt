@@ -10,16 +10,17 @@ import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import java.time.ZonedDateTime
 
 @RestController
 @RequestMapping("/todo")
-
 class TodoController (
     private val todoService: TodoService
 ){
@@ -30,9 +31,10 @@ class TodoController (
             .body(todoService.getTodo(todoId))
     }
     @GetMapping("/list")
-    fun getTodos(@PageableDefault(size = 5) pageable: Pageable, searchKeywordDTO: SearchKeywordDTO?,
-                 orderByASC: Boolean = true):
-            ResponseEntity<Page<TodoDTO>>
+    fun getTodos(@PageableDefault(size = 5) pageable: Pageable,
+                 searchKeywordDTO: SearchKeywordDTO?,
+                 orderByASC: Boolean = true,
+    ): ResponseEntity<Page<TodoDTO>>
     {
         return ResponseEntity.status(HttpStatus.OK)
             .body(todoService.getTodos(pageable, searchKeywordDTO, orderByASC))
