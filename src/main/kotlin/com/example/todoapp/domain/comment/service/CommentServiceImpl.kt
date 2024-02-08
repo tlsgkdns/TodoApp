@@ -49,7 +49,7 @@ class CommentServiceImpl(
     @Transactional
     override fun postComment(todoId: Long, commentPostDTO: CommentPostDTO): CommentDTO {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
-        val comment = commentPostDTO.to(todo, memberRepository)
+        val comment = commentPostDTO.to(todo)
         return CommentDTO.from(commentRepository.save(comment))
     }
     @Transactional
@@ -57,7 +57,7 @@ class CommentServiceImpl(
         val (content, password) = modifyDTO
         val comment = getValidatedComment(commentId)
         checkTodoAndCommentAreSame(todoId, comment)
-        comment.checkLoginMemberPostThis(memberRepository)
+        SecurityUtil.checkWriterEqualsLoginMember(comment, memberRepository)
         if(password != comment.password) throw IllegalStateException("Password Not Matched!")
         comment.modifyComment(content)
         return CommentDTO.from(commentRepository.save(comment))
@@ -66,7 +66,7 @@ class CommentServiceImpl(
     override fun deleteComment(todoId: Long, commentId: Long) {
         val comment = getValidatedComment(commentId)
         checkTodoAndCommentAreSame(todoId, comment)
-        comment.checkLoginMemberPostThis(memberRepository)
+        SecurityUtil.checkWriterEqualsLoginMember(comment, memberRepository)
         commentRepository.delete(comment)
     }
 }

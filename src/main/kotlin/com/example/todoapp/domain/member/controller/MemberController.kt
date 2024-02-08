@@ -4,14 +4,11 @@ import com.example.todoapp.domain.member.dto.MemberDTO
 import com.example.todoapp.domain.member.dto.MemberRegisterDTO
 import com.example.todoapp.domain.member.dto.MemberSignInDTO
 import com.example.todoapp.domain.member.dto.MemberUpdateDTO
-import com.example.todoapp.domain.member.model.Member
 import com.example.todoapp.domain.member.service.MemberService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
-import java.security.Principal
 
 @RestController
 @RequestMapping("/member")

@@ -5,7 +5,3 @@ data class SearchKeywordDTO(
     val title: String?,
     val content: String?
 )
-{
-
-}
-

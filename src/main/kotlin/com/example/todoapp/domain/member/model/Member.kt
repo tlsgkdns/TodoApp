@@ -1,6 +1,6 @@
 package com.example.todoapp.domain.member.model
 
-import com.example.todoapp.domain.member.dto.MemberRegisterDTO
+import com.example.todoapp.domain.common.BaseTimeEntity
 import com.example.todoapp.domain.member.dto.MemberUpdateDTO
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -24,7 +24,7 @@ class Member(
     var password: String,
     @Enumerated(EnumType.STRING)
     val type: MemberType = MemberType.USER
-){
+): BaseTimeEntity(){
     fun updateMember(request: MemberUpdateDTO, encoder: PasswordEncoder)
     {
         this.username = request.newUsername ?: this.username

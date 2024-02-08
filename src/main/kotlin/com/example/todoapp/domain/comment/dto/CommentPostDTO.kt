@@ -10,9 +10,8 @@ data class CommentPostDTO(
     val password: String,
 )
 {
-    fun to(todo: Todo, memberRepository: MemberRepository): Comment
+    fun to(todo: Todo): Comment
     {
-        return Comment(content = content, password = password,
-            todo = todo).apply { setWriter(memberRepository) }
+        return Comment(content = content, password = password, todo = todo)
     }
 }

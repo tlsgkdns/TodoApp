@@ -65,7 +65,6 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs += "-Xjsr305=strict"
         jvmTarget = "17"
     }
-
 }
 
 tasks.withType<Test> {
@@ -77,4 +76,7 @@ tasks.withType<Test> {
 
 tasks.bootBuildImage {
     builder.set("paketobuildpacks/builder-jammy-base:latest")
+}
+allOpen{
+    annotations("jakarta.persistence.Entity")
 }

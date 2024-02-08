@@ -1,6 +1,6 @@
 package com.example.todoapp.domain.comment.model
 
-import com.example.todoapp.domain.Post
+import com.example.todoapp.domain.common.Post
 import com.example.todoapp.domain.todo.model.Todo
 import jakarta.persistence.*
 

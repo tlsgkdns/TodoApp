@@ -47,19 +47,19 @@ class TodoServiceImpl(
     override fun modifyTodo(todoId: Long, todoModifyDTO: TodoModifyDTO): TodoDTO {
         val todo = getValidatedTodo(todoId)
         val (title, content) = todoModifyDTO
-        todo.checkLoginMemberPostThis(memberRepository);
+        SecurityUtil.checkWriterEqualsLoginMember(todo, memberRepository)
         return TodoDTO.from(todoRepository.save(todo.apply
             { todo.title = title; todo.content = content }))
     }
     @Transactional
     override fun deleteTodo(todoId: Long) {
         val todo = getValidatedTodo(todoId)
-        todo.checkLoginMemberPostThis(memberRepository)
+        SecurityUtil.checkWriterEqualsLoginMember(todo, memberRepository)
         return todoRepository.delete(todo)
     }
     @Transactional
     override fun createTodo(createDTO: TodoCreateDTO): TodoDTO {
-        return TodoDTO.from(todoRepository.save(createDTO.to(memberRepository)))
+        return TodoDTO.from(todoRepository.save(createDTO.to()))
     }
     private fun getValidatedTodo(todoId: Long): Todo
     {

@@ -1,11 +1,10 @@
 package com.example.todoapp.domain.todo.model
 
-import com.example.todoapp.domain.Post
+import com.example.todoapp.domain.common.Post
 import com.example.todoapp.domain.comment.dto.CommentDTO
 import com.example.todoapp.domain.comment.model.Comment
 import jakarta.persistence.*
 import org.springframework.data.jpa.repository.EntityGraph
-import java.time.LocalDateTime
 
 @Entity
 @Table(name = "todo")
@@ -15,8 +14,6 @@ data class Todo(
     var title: String,
     @Column(name = "content", nullable = false)
     var content: String,
-    @Column(name = "created_date", nullable = false)
-    var createdDate: LocalDateTime = LocalDateTime.now(),
     @Column(name = "complete_status")
     var complete: Boolean = false,
 ): Post()

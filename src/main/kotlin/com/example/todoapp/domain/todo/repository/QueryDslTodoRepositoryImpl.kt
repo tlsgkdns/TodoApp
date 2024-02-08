@@ -4,14 +4,10 @@ import com.example.todoapp.domain.todo.dto.SearchKeywordDTO
 import com.example.todoapp.domain.todo.model.QTodo
 import com.example.todoapp.domain.todo.model.Todo
 import com.example.todoapp.infra.querydsl.QueryDslSupport
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Expression
 import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
-import com.querydsl.core.types.Path
-import com.querydsl.core.types.Predicate
-import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.EntityPathBase
 import com.querydsl.core.types.dsl.PathBuilder
 import com.querydsl.core.types.dsl.StringExpression

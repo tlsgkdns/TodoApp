@@ -9,7 +9,6 @@ data class TodoDTO(
     val title: String,
     val content: String,
     val writer: Long,
-    val createdDate: LocalDateTime,
     val complete: Boolean,
     val commentList: List<CommentDTO> = listOf()
 )
@@ -22,7 +21,6 @@ data class TodoDTO(
                 title = todo.title,
                 content = todo.content,
                 writer = todo.writer?.id!!,
-                createdDate = todo.createdDate,
                 complete = todo.complete,
                 commentList = todo.commentSet.map { CommentDTO.from(it) }
             )
