@@ -38,8 +38,8 @@ class QueryDslTodoRepositoryImpl: QueryDslTodoRepository, QueryDslSupport() {
         searchKeywordDTO?.also {
             whereClause = BooleanBuilder()
             SearchKeywordDTO::class.memberProperties.forEach(){
-                    search -> whereClause.or((keywordMap[search.name] as StringExpression)
-                .contains(search.get(it).toString()))}
+                    search -> whereClause.or((keywordMap[search.name] as? StringExpression)
+                ?.contains(search.get(it).toString()))}
         }
         val content = queryFactory.selectFrom(todo)
             .where(whereClause)
