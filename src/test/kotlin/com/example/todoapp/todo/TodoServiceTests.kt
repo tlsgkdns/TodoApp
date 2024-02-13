@@ -33,6 +33,7 @@ class TodoServiceTests @Autowired constructor(
     val todoService = TodoServiceImpl(todoRepository, memberRepository)
     describe("GET /todo/{num}")
     {
+        val member = Member(1, "User", "dsdasd")
         context("num이 존재한다면")
         {
             val todoId = 1433236L
@@ -43,10 +44,10 @@ class TodoServiceTests @Autowired constructor(
                             title = "Mock Title",
                             content = "Mock Content",
                             complete = false
-                        )
+                        ).apply { this.id = 1; this.writer = member}
                 every{
                     memberRepository.findByIdOrNull(any())
-                } returns Member(1, "User", "dsdasd")
+                } returns member
                 val result = todoService.getTodo(todoId)
                 result.title shouldBe "Mock Title"
             }

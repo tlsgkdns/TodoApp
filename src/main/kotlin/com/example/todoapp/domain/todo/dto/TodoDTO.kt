@@ -8,7 +8,7 @@ data class TodoDTO(
     val id: Long,
     val title: String,
     val content: String,
-    val writer: Long,
+    val writer: Long? = null,
     val complete: Boolean,
     val commentList: List<CommentDTO> = listOf()
 )
